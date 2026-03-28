@@ -1,0 +1,26 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: devops-eks
+  region: us-east-1
+  version: "1.31"
+
+managedNodeGroups:
+  - name: devops-nodes
+    instanceType: t3.small
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 2
+    volumeSize: 20
+    ssh:
+      allow: false
+
+addons:
+  - name: vpc-cni
+  - name: coredns
+  - name: kube-proxy
+  - name: metrics-server
+
+iam:
+  withOIDC: true
