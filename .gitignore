@@ -1,0 +1,27 @@
+# Gradle
+.gradle
+build/
+
+# IDE
+.idea
+.vscode
+*.iml
+
+# OS
+.DS_Store
+
+# logs
+*.log
+
+# env
+.env
+
+# kube config
+.kube
+
+# terraform
+*.tfstate
+*.tfstate.backup
+
+# node
+node_modules
