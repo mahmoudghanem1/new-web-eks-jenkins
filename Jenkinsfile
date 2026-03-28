@@ -3,35 +3,40 @@ pipeline {
 
     environment {
         DOCKER_IMAGE = "mahmoudghanem/new-web"
+        TAG = "${BUILD_NUMBER}"
     }
 
     stages {
 
         stage('Checkout') {
             steps {
-                echo "Code already checked out"
+                checkout scm
             }
         }
 
         stage('Build App') {
             steps {
                 sh 'chmod +x gradlew'
-                sh './gradlew build'
+                sh './gradlew clean build'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $DOCKER_IMAGE:$BUILD_NUMBER .'
+                sh 'docker build -t $DOCKER_IMAGE:$TAG .'
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub',
+                    usernameVariable: 'USER',
+                    passwordVariable: 'PASS'
+                )]) {
                     sh '''
                     echo $PASS | docker login -u $USER --password-stdin
-                    docker push $DOCKER_IMAGE:$BUILD_NUMBER
+                    docker push $DOCKER_IMAGE:$TAG
                     '''
                 }
             }
