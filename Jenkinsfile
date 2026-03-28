@@ -9,7 +9,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git 'https://github.com/mahmoudghanem1/new-web-eks-jenkins.git'
+                echo "Code already checked out"
             }
         }
 
